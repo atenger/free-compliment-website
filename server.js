@@ -10,6 +10,12 @@ const port = process.env.PORT || 3000;
 // Serve static files from public directory
 app.use(express.static("public"));
 
+// Make sure this comes before other routes
+app.use(
+  "/.well-known",
+  express.static(path.join(__dirname, "public/.well-known"))
+);
+
 // Read compliments from JSON file
 const complimentsFile = path.join(__dirname, "data/compliments.json");
 const complimentsData = JSON.parse(fs.readFileSync(complimentsFile, "utf8"));
@@ -72,16 +78,18 @@ app.post("/api/frame", (req, res) => {
   const randomIndex = Math.floor(Math.random() * compliments.length);
   const compliment = compliments[randomIndex];
 
-  // Return the frame response
   res.setHeader("Content-Type", "text/html");
   res.status(200).send(`
         <!DOCTYPE html>
         <html>
         <head>
+            <meta property="og:image" content="https://freecompliment.com/api/og" />
             <meta property="fc:frame" content="vNext" />
             <meta property="fc:frame:image" content="https://freecompliment.com/api/og" />
             <meta property="fc:frame:button:1" content="Get another compliment" />
             <meta property="fc:frame:post_url" content="https://freecompliment.com/api/frame" />
+            <meta property="fc:frame:aspect_ratio" content="1.91:1" />
+            <meta property="fc:frame:image:aspect_ratio" content="1.91:1" />
         </head>
         </html>
     `);

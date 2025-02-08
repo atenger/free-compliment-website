@@ -1,0 +1,14 @@
+{
+  "frames": {
+    "version": "vNext",
+    "image": "https://freecompliment.com/api/og",
+    "buttons": [
+      {
+        "label": "Get another compliment",
+        "action": "post"
+      }
+    ],
+    "post_url": "https://freecompliment.com/api/frame",
+    "aspect_ratio": "1.91:1"
+  }
+}
