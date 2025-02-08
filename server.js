@@ -73,26 +73,39 @@ app.get("/about", (req, res) => {
 });
 
 // Frame interaction endpoint
-app.post("/api/frame", (req, res) => {
-  const compliments = complimentsData.compliments;
-  const randomIndex = Math.floor(Math.random() * compliments.length);
-  const compliment = compliments[randomIndex];
+app.post("/api/frame", async (req, res) => {
+  try {
+    // Get a random compliment
+    const compliments = complimentsData.compliments;
+    const randomIndex = Math.floor(Math.random() * compliments.length);
+    const compliment = compliments[randomIndex];
 
-  res.setHeader("Content-Type", "text/html");
-  res.status(200).send(`
+    res.setHeader("Content-Type", "text/html");
+    res.status(200).send(`
         <!DOCTYPE html>
         <html>
         <head>
-            <meta property="og:image" content="https://freecompliment.com/api/og" />
-            <meta property="fc:frame" content="vNext" />
-            <meta property="fc:frame:image" content="https://freecompliment.com/api/og" />
-            <meta property="fc:frame:button:1" content="Get another compliment" />
-            <meta property="fc:frame:post_url" content="https://freecompliment.com/api/frame" />
-            <meta property="fc:frame:aspect_ratio" content="1.91:1" />
-            <meta property="fc:frame:image:aspect_ratio" content="1.91:1" />
+            <meta name="fc:frame" content='{
+                "version": "next",
+                "imageUrl": "https://freecompliment.com/api/og",
+                "button": {
+                    "title": "Get another compliment",
+                    "action": {
+                        "type": "launch_frame",
+                        "name": "Free Compliment",
+                        "url": "https://freecompliment.com/api/frame",
+                        "splashImageUrl": "https://freecompliment.com/api/og",
+                        "splashBackgroundColor": "#1a1f3c"
+                    }
+                }
+            }' />
         </head>
         </html>
     `);
+  } catch (error) {
+    console.error("Error handling frame:", error);
+    res.status(500).send("Error handling frame");
+  }
 });
 
 // Catch-all route should be last

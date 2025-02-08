@@ -4,19 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Free Compliments</title>
-    <meta property="og:image" content="https://freecompliment.com/api/og" />
-    <meta property="fc:frame" content="vNext" />
     <meta
-      property="fc:frame:image"
-      content="https://freecompliment.com/api/og"
+      name="fc:frame"
+      content='{
+      "version": "next",
+      "imageUrl": "https://freecompliment.com/api/og",
+      "button": {
+        "title": "Get a free compliment",
+        "action": {
+          "type": "launch_frame",
+          "name": "Free Compliment",
+          "url": "https://freecompliment.com/api/frame",
+          "splashImageUrl": "https://freecompliment.com/api/og",
+          "splashBackgroundColor": "#1a1f3c"
+        }
+      }
+    }'
     />
-    <meta property="fc:frame:button:1" content="Get another compliment" />
-    <meta
-      property="fc:frame:post_url"
-      content="https://freecompliment.com/api/frame"
-    />
-    <meta property="fc:frame:aspect_ratio" content="1.91:1" />
-    <meta property="fc:frame:image:aspect_ratio" content="1.91:1" />
     <style>
       :root {
         --dark-blue: #1a1f3c;
