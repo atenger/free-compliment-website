@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Free Compliments</title>
+    <style>
+      :root {
+        --dark-blue: #1a1f3c;
+        --bright-green: #4eff9f;
+        --text-light: #ffffff;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: var(--dark-blue);
+        color: var(--text-light);
+      }
+
+      .container {
+        text-align: center;
+        padding: 2rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+        max-width: 600px;
+        width: 90%;
+        backdrop-filter: blur(10px);
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        color: var(--bright-green);
+      }
+
+      p {
+        font-size: 1.2em;
+        line-height: 1.6;
+        margin: 1.5rem 0;
+      }
+
+      .home-link {
+        margin-top: 2rem;
+        color: var(--text-light);
+        text-decoration: none;
+        opacity: 0.8;
+        transition: opacity 0.2s;
+        display: inline-block;
+      }
+
+      .home-link:hover {
+        opacity: 1;
+        color: var(--bright-green);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>About Free Compliment</h1>
+      <p>
+        A compliment is a simple way to spread warmth, compassion, and kindness.
+        It's free to give or get a compliment.
+      </p>
+      <a href="/" class="home-link">← Back to Compliments</a>
+    </div>
+  </body>
+</html>
