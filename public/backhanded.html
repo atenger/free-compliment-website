@@ -3,28 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Free Compliments</title>
-    <meta
-      name="fc:frame"
-      content='{
-      "version": "next",
-      "imageUrl": "https://freecompliment.com/api/og",
-      "button": {
-        "title": "Get a free compliment",
-        "action": {
-          "type": "launch_frame",
-          "name": "Free Compliment",
-          "url": "https://freecompliment.com",
-          "splashImageUrl": "https://freecompliment.com/api/og",
-          "splashBackgroundColor": "#1a1f3c"
-        }
-      }
-    }'
-    />
+    <title>Backhanded Compliments</title>
     <style>
       :root {
-        --dark-blue: #1a1f3c;
-        --bright-green: #4eff9f;
+        --dark-red: #2d0808;
+        --bright-red: #ff4242;
         --text-light: #ffffff;
       }
 
@@ -36,14 +19,14 @@
         justify-content: center;
         min-height: 100vh;
         margin: 0;
-        background-color: var(--dark-blue);
+        background-color: var(--dark-red);
         color: var(--text-light);
       }
 
       .container {
         text-align: center;
         padding: 2rem;
-        background-color: rgba(255, 255, 255, 0.05);
+        background-color: rgba(255, 0, 0, 0.05);
         border-radius: 16px;
         box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
         max-width: 600px;
@@ -54,7 +37,7 @@
       h1 {
         font-size: 2.5rem;
         margin-bottom: 2rem;
-        color: var(--bright-green);
+        color: var(--bright-red);
       }
 
       #compliment {
@@ -63,19 +46,11 @@
         font-size: 1.5em;
         line-height: 1.4;
         padding: 0 1rem;
-        color: var(--text-light);
-      }
-
-      .button-container {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-        margin: 1rem 0;
       }
 
       button {
-        background-color: var(--bright-green);
-        color: var(--dark-blue);
+        background-color: var(--bright-red);
+        color: var(--dark-red);
         border: none;
         padding: 12px 24px;
         border-radius: 8px;
@@ -87,27 +62,9 @@
 
       button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(78, 255, 159, 0.3);
+        box-shadow: 0 4px 12px rgba(255, 66, 66, 0.3);
       }
 
-      button.backhanded {
-        background-color: #ff4242;
-      }
-
-      .about-link {
-        margin-top: 2rem;
-        color: var(--text-light);
-        text-decoration: none;
-        opacity: 0.8;
-        transition: opacity 0.2s;
-      }
-
-      .about-link:hover {
-        opacity: 1;
-        color: var(--bright-green);
-      }
-
-      /* Update the links container */
       .links-container {
         margin-top: 2rem;
         display: flex;
@@ -124,10 +81,9 @@
 
       .links-container a:hover {
         opacity: 1;
-        color: var(--bright-green);
+        color: var(--bright-red);
       }
 
-      /* Add separator style */
       .separator {
         color: var(--text-light);
         opacity: 0.4;
@@ -136,30 +92,20 @@
   </head>
   <body>
     <div class="container">
-      <h1>💚Free Compliment💚</h1>
-      <div id="compliment">Loading your compliment...</div>
-      <button onclick="getCompliment()">Get another compliment</button>
+      <h1>😈 Free Compliment 😈</h1>
+      <div id="compliment">Loading your "compliment"...</div>
+      <button onclick="getCompliment()">Hit me again</button>
       <div class="links-container">
-        <a href="/backhanded">Try a backhanded one</a>
+        <a href="/">Try a nice one</a>
         <span class="separator">|</span>
         <a href="/about">About Free Compliment</a>
       </div>
     </div>
 
-    <!-- Add Frame SDK and ready call -->
-    <script src="https://cdn.jsdelivr.net/npm/@farcaster/frame-sdk/dist/index.min.js"></script>
-    <script>
-      window.addEventListener("load", function () {
-        if (window.frame && window.frame.sdk) {
-          frame.sdk.actions.ready();
-        }
-      });
-    </script>
-
     <script>
       async function getCompliment() {
         try {
-          const response = await fetch("/compliment");
+          const response = await fetch("/backhanded-compliment");
           const data = await response.json();
           document.getElementById("compliment").textContent = data.compliment;
         } catch (error) {

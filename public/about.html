@@ -8,6 +8,7 @@
       :root {
         --dark-blue: #1a1f3c;
         --bright-green: #4eff9f;
+        --bright-red: #ff4242;
         --text-light: #ffffff;
       }
 
@@ -46,18 +47,34 @@
         margin: 1.5rem 0;
       }
 
-      .home-link {
+      .links-container {
         margin-top: 2rem;
-        color: var(--text-light);
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .links-container a {
         text-decoration: none;
         opacity: 0.8;
         transition: opacity 0.2s;
-        display: inline-block;
       }
 
-      .home-link:hover {
-        opacity: 1;
+      .links-container a.nice {
         color: var(--bright-green);
+      }
+
+      .links-container a.backhanded {
+        color: var(--bright-red);
+      }
+
+      .links-container a:hover {
+        opacity: 1;
+      }
+
+      .separator {
+        color: var(--text-light);
+        opacity: 0.4;
       }
     </style>
   </head>
@@ -65,10 +82,19 @@
     <div class="container">
       <h1>About Free Compliment</h1>
       <p>
-        A compliment is a simple way to spread warmth, compassion, and kindness.
-        It's free to give or get a compliment.
+        💚A compliment is a simple way to spread warmth, compassion, and
+        kindness.💚
       </p>
-      <a href="/" class="home-link">← Back to Compliments</a>
+      <p>
+        😈A backhanded compliment is mischieveous - half flattery, half friendly
+        jab - that keeps you guessing whether to laugh or cry.😈
+      </p>
+      <p>Compliments are always free to give or get.</p>
+      <div class="links-container">
+        <a href="/backhanded" class="backhanded">Get a backhanded one</a>
+        <span class="separator">|</span>
+        <a href="/" class="nice">Try a nice one</a>
+      </div>
     </div>
   </body>
 </html>

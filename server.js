@@ -16,9 +16,11 @@ app.use(
   express.static(path.join(__dirname, "public/.well-known"))
 );
 
-// Read compliments from JSON file
+// Read both compliment files
 const complimentsFile = path.join(__dirname, "data/compliments.json");
+const backhandedFile = path.join(__dirname, "data/backhanded_compliments.json");
 const complimentsData = JSON.parse(fs.readFileSync(complimentsFile, "utf8"));
+const backhandedData = JSON.parse(fs.readFileSync(backhandedFile, "utf8"));
 
 // Add express.json() middleware for parsing POST requests
 app.use(express.json());
@@ -110,6 +112,20 @@ app.post("/api/frame", async (req, res) => {
     console.error("Error handling frame:", error);
     res.status(500).send("Error handling frame");
   }
+});
+
+// Add new endpoint for backhanded compliments
+app.get("/backhanded-compliment", (req, res) => {
+  const compliments = backhandedData.backhanded_compliments;
+  const randomIndex = Math.floor(Math.random() * compliments.length);
+  const randomCompliment = compliments[randomIndex];
+
+  res.json({ compliment: randomCompliment });
+});
+
+// Add route for backhanded.html
+app.get("/backhanded", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/backhanded.html"));
 });
 
 // Catch-all route should be last
