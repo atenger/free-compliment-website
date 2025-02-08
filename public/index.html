@@ -48,17 +48,17 @@
       }
 
       h1 {
-        font-size: 2.5rem;
-        margin-bottom: 2rem;
-        color: var(--bright-green);
-      }
-
-      #compliment {
         margin: 2rem 0;
         min-height: 60px;
         font-size: 1.5em;
         line-height: 1.4;
         padding: 0 1rem;
+      }
+
+      #compliment {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        color: var(--bright-green);
       }
 
       button {
@@ -94,8 +94,9 @@
   </head>
   <body>
     <div class="container">
-      <h1>Free Compliments</h1>
+      <h1>Free Compliment</h1>
       <div id="compliment">Loading your compliment...</div>
+      <br />
       <button onclick="getCompliment()">Get another compliment</button>
       <div style="margin-top: 2rem">
         <a href="/about" class="about-link">About Free Compliment</a>
