@@ -93,7 +93,7 @@ app.post("/api/frame", async (req, res) => {
                     "action": {
                         "type": "launch_frame",
                         "name": "Free Compliment",
-                        "url": "https://freecompliment.com/api/frame",
+                        "url": "https://freecompliment.com/",
                         "splashImageUrl": "https://freecompliment.com/api/og",
                         "splashBackgroundColor": "#1a1f3c"
                     }
