@@ -14,6 +14,9 @@ app.use(express.static("public"));
 const complimentsFile = path.join(__dirname, "data/compliments.json");
 const complimentsData = JSON.parse(fs.readFileSync(complimentsFile, "utf8"));
 
+// Add express.json() middleware for parsing POST requests
+app.use(express.json());
+
 // API routes should come before the catch-all
 app.get("/api/og", async (req, res) => {
   try {
@@ -63,29 +66,30 @@ app.get("/about", (req, res) => {
   res.sendFile(path.join(__dirname, "public/about.html"));
 });
 
-// Catch-all route should be last
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/index.html"));
-});
-
 // Frame interaction endpoint
-app.post("/api/frame", express.json(), (req, res) => {
+app.post("/api/frame", (req, res) => {
   const compliments = complimentsData.compliments;
   const randomIndex = Math.floor(Math.random() * compliments.length);
   const compliment = compliments[randomIndex];
 
+  // Return the frame response
   res.setHeader("Content-Type", "text/html");
   res.status(200).send(`
         <!DOCTYPE html>
         <html>
         <head>
             <meta property="fc:frame" content="vNext" />
-            <meta property="fc:frame:image" content="${process.env.BASE_URL}/api/og" />
+            <meta property="fc:frame:image" content="https://freecompliment.com/api/og" />
             <meta property="fc:frame:button:1" content="Get another compliment" />
-            <meta property="fc:frame:post_url" content="${process.env.BASE_URL}/api/frame" />
+            <meta property="fc:frame:post_url" content="https://freecompliment.com/api/frame" />
         </head>
         </html>
     `);
+});
+
+// Catch-all route should be last
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
 app.listen(port, () => {
