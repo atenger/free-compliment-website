@@ -3,16 +3,5 @@
     "header": "eyJmaWQiOjU4MTgsInR5cGUiOiJjdXN0b2R5Iiwia2V5IjoiMHgxMjQzNTE2NDA4RWU5NzZiMzQ1NzM2NzhmMkFBMDI5YjY5REU0RjAwIn0",
     "payload": "eyJkb21haW4iOiJmcmVlY29tcGxpbWVudC5jb20ifQ",
     "signature": "MHgzMGM0ZDRmN2RlNjM0OGU1NWRiOGIwZDk3ZTUwZWE4ZjcxNjFkNjBkYWIyYzY1YjBiMzNhYmE0MTk5ZDNmMGE5MzM1NThmYjE1ZTIzNTcyOWEyOGYyZWYzY2E5NTI4OTQ3NDRmYTY2MTk1OGZjYWMxMjNmNTkyYjNkZjE2N2UwNTFi"
-  },
-  "frame": {
-    "version": "1",
-    "name": "Free Compliment",
-    "iconUrl": "",
-    "homeUrl": "https://freecompliment.com",
-    "imageUrl": "",
-    "buttonTitle": "Check this out",
-    "splashImageUrl": "https://freecompliment.com/api/og",
-    "splashBackgroundColor": "#eeccff",
-    "webhookUrl": ""
   }
 }
