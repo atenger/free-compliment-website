@@ -14,7 +14,8 @@
         "action": {
           "type": "launch_frame",
           "name": "Free Compliment",
-          "url": "https://freecompliment.com",          
+          "url": "https://freecompliment.com",
+          "splashImageUrl": "https://freecompliment.com/api/og",
           "splashBackgroundColor": "#1a1f3c"
         }
       }
@@ -105,6 +106,16 @@
         <a href="/about" class="about-link">About Free Compliment</a>
       </div>
     </div>
+
+    <!-- Add Frame SDK and ready call -->
+    <script src="https://cdn.jsdelivr.net/npm/@farcaster/frame-sdk/dist/index.min.js"></script>
+    <script>
+      window.addEventListener("load", function () {
+        if (window.frame && window.frame.sdk) {
+          frame.sdk.actions.ready();
+        }
+      });
+    </script>
 
     <script>
       async function getCompliment() {

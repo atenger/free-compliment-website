@@ -75,7 +75,6 @@ app.get("/about", (req, res) => {
 // Frame interaction endpoint
 app.post("/api/frame", async (req, res) => {
   try {
-    // Get a random compliment
     const compliments = complimentsData.compliments;
     const randomIndex = Math.floor(Math.random() * compliments.length);
     const compliment = compliments[randomIndex];
@@ -88,17 +87,23 @@ app.post("/api/frame", async (req, res) => {
             <meta name="fc:frame" content='{
                 "version": "next",
                 "imageUrl": "https://freecompliment.com/api/og",
-                "button": {
-                    "title": "Get another compliment",
-                    "action": {
-                        "type": "launch_frame",
-                        "name": "Free Compliment",
-                        "url": "https://freecompliment.com/",                        
-                        "splashBackgroundColor": "#1a1f3c"
-                    }
-                }
+                "buttons": [{
+                    "label": "Get another compliment",
+                    "action": "post"
+                }],
+                "postUrl": "https://freecompliment.com/api/frame"
             }' />
         </head>
+        <body>
+            <script src="https://cdn.jsdelivr.net/npm/@farcaster/frame-sdk/dist/index.min.js"></script>
+            <script>
+                window.addEventListener('load', function() {
+                    if (window.frame && window.frame.sdk) {
+                        frame.sdk.actions.ready();
+                    }
+                });
+            </script>
+        </body>
         </html>
     `);
   } catch (error) {
