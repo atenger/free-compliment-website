@@ -64,6 +64,7 @@ Generates an OpenGraph image with a random compliment
 
 ## 🧱 Project Structure
 
+```
 free-compliments-website/
 ├── data/ # Compliment JSON data files
 ├── public/ # Static files
@@ -97,5 +98,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 Your Name - [@adrienne](https://warpcast.com/adrienne)
 
 Project Link: [https://github.com/atenger/free-compliment-website](https://github.com/atenger/free-compliments-website)
-
-```
