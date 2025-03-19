@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -29,7 +29,11 @@
       }
 
       body {
-        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        font-family:
+          'Inter',
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -82,7 +86,9 @@
         cursor: pointer;
         font-size: 1.1em;
         font-weight: 600;
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s;
       }
 
       button:hover {
@@ -138,7 +144,10 @@
     <div class="container">
       <h1>💚💚💚</h1>
       <div id="compliment">Loading your compliment...</div>
-      <button onclick="getCompliment()">Get another compliment</button>
+      <div class="button-container">
+        <button onclick="getCompliment()">Get another compliment</button>
+        <button onclick="mintCompliment()">Mint this compliment</button>
+      </div>
       <div class="links-container">
         <a href="/backhanded">Try a backhanded one</a>
         <span class="separator">|</span>
@@ -149,7 +158,7 @@
     <!-- Add Frame SDK and ready call -->
     <script src="https://cdn.jsdelivr.net/npm/@farcaster/frame-sdk/dist/index.min.js"></script>
     <script>
-      window.addEventListener("load", function () {
+      window.addEventListener('load', function () {
         if (window.frame && window.frame.sdk) {
           frame.sdk.actions.ready();
         }
@@ -159,18 +168,29 @@
     <script>
       async function getCompliment() {
         try {
-          const response = await fetch("/compliment");
+          const response = await fetch('/compliment');
           const data = await response.json();
-          document.getElementById("compliment").textContent = data.compliment;
+          document.getElementById('compliment').textContent = data.compliment;
         } catch (error) {
-          console.error("Error:", error);
-          document.getElementById("compliment").textContent =
-            "Oops! Something went wrong.";
+          console.error('Error:', error);
+          document.getElementById('compliment').textContent =
+            'Oops! Something went wrong.';
         }
       }
 
       // Get compliment on page load
       window.onload = getCompliment;
+
+      async function mintCompliment() {
+        try {
+          const accounts = await window.frame.sdk.wallet.ethProvider.request({
+            method: 'eth_requestAccounts',
+          });
+          console.log('Connected wallet address:', accounts[0]);
+        } catch (error) {
+          console.error('Error getting wallet address:', error);
+        }
+      }
     </script>
   </body>
 </html>
