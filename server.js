@@ -1,32 +1,38 @@
-require("dotenv").config();
-const express = require("express");
-const fs = require("fs");
-const path = require("path");
-const sharp = require("sharp");
+require('dotenv').config();
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const sharp = require('sharp');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Environment configuration for development and production
+const isDev = process.env.NODE_ENV !== 'production';
+const BASE_URL = isDev
+  ? `http://localhost:${port}`
+  : 'https://freecompliment.com';
+
 // Serve static files from public directory
-app.use(express.static("public"));
+app.use(express.static('public'));
 
 // Make sure this comes before other routes
 app.use(
-  "/.well-known",
-  express.static(path.join(__dirname, "public/.well-known"))
+  '/.well-known',
+  express.static(path.join(__dirname, 'public/.well-known'))
 );
 
 // Read both compliment files
-const complimentsFile = path.join(__dirname, "data/compliments.json");
-const backhandedFile = path.join(__dirname, "data/backhanded_compliments.json");
-const complimentsData = JSON.parse(fs.readFileSync(complimentsFile, "utf8"));
-const backhandedData = JSON.parse(fs.readFileSync(backhandedFile, "utf8"));
+const complimentsFile = path.join(__dirname, 'data/compliments.json');
+const backhandedFile = path.join(__dirname, 'data/backhanded_compliments.json');
+const complimentsData = JSON.parse(fs.readFileSync(complimentsFile, 'utf8'));
+const backhandedData = JSON.parse(fs.readFileSync(backhandedFile, 'utf8'));
 
 // Add express.json() middleware for parsing POST requests
 app.use(express.json());
 
 // API routes should come before the catch-all
-app.get("/api/og", async (req, res) => {
+app.get('/api/og', async (req, res) => {
   try {
     const compliments = complimentsData.compliments;
     const randomIndex = Math.floor(Math.random() * compliments.length);
@@ -49,19 +55,19 @@ app.get("/api/og", async (req, res) => {
         `;
 
     // Convert SVG to PNG
-    const pngBuffer = await sharp(Buffer.from(svg)).toFormat("png").toBuffer();
+    const pngBuffer = await sharp(Buffer.from(svg)).toFormat('png').toBuffer();
 
     // Send the PNG
-    res.setHeader("Content-Type", "image/png");
-    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader('Content-Type', 'image/png');
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.send(pngBuffer);
   } catch (error) {
-    console.error("Error generating image:", error);
-    res.status(500).send("Error generating image");
+    console.error('Error generating image:', error);
+    res.status(500).send('Error generating image');
   }
 });
 
-app.get("/compliment", (req, res) => {
+app.get('/compliment', (req, res) => {
   const compliments = complimentsData.compliments;
   const randomIndex = Math.floor(Math.random() * compliments.length);
   const randomCompliment = compliments[randomIndex];
@@ -70,30 +76,30 @@ app.get("/compliment", (req, res) => {
 });
 
 // Specific route for about page
-app.get("/about", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/about.html"));
+app.get('/about', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/about.html'));
 });
 
 // Frame interaction endpoint
-app.post("/api/frame", async (req, res) => {
+app.post('/api/frame', async (req, res) => {
   try {
     const compliments = complimentsData.compliments;
     const randomIndex = Math.floor(Math.random() * compliments.length);
     const compliment = compliments[randomIndex];
 
-    res.setHeader("Content-Type", "text/html");
+    res.setHeader('Content-Type', 'text/html');
     res.status(200).send(`
         <!DOCTYPE html>
         <html>
         <head>
             <meta name="fc:frame" content='{
                 "version": "next",
-                "imageUrl": "https://freecompliment.com/api/og",
+                "imageUrl": "${BASE_URL}/api/og",
                 "buttons": [{
                     "label": "Get another compliment",
                     "action": "post"
                 }],
-                "postUrl": "https://freecompliment.com/api/frame"
+                "postUrl": "${BASE_URL}/api/frame"
             }' />
         </head>
         <body>
@@ -109,13 +115,13 @@ app.post("/api/frame", async (req, res) => {
         </html>
     `);
   } catch (error) {
-    console.error("Error handling frame:", error);
-    res.status(500).send("Error handling frame");
+    console.error('Error handling frame:', error);
+    res.status(500).send('Error handling frame');
   }
 });
 
 // Add new endpoint for backhanded compliments
-app.get("/backhanded-compliment", (req, res) => {
+app.get('/backhanded-compliment', (req, res) => {
   const compliments = backhandedData.backhanded_compliments;
   const randomIndex = Math.floor(Math.random() * compliments.length);
   const randomCompliment = compliments[randomIndex];
@@ -124,17 +130,15 @@ app.get("/backhanded-compliment", (req, res) => {
 });
 
 // Add route for backhanded.html
-app.get("/backhanded", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/backhanded.html"));
+app.get('/backhanded', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/backhanded.html'));
 });
 
 // Catch-all route should be last
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public/index.html"));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 app.listen(port, () => {
-  console.log(
-    `Server is running at ${process.env.BASE_URL || `http://localhost:${port}`}`
-  );
+  console.log(`Server is running at ${BASE_URL}`);
 });
