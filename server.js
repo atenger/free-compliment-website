@@ -3,6 +3,10 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
+import { sdk } from '@farcaster/frame-sdk';
+import { http, createConfig } from 'wagmi';
+import { base } from 'wagmi/chains';
+import { farcasterFrame as miniAppConnector } from '@farcaster/frame-wagmi-connector';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -141,4 +145,14 @@ app.get('*', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server is running at ${BASE_URL}`);
+});
+
+export const wagmiConfig = createConfig({
+  chains: [base],
+  transports: {
+    [base.id]: http(),
+  },
+  connectors: [
+    miniAppConnector()
+  ]
 });

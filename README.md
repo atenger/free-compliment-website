@@ -34,15 +34,35 @@ npm install
 
 3. Create your environment file:
 
+For Windows (PowerShell):
 ```powershell
 Copy-Item .env.example .env
+```
+
+For Linux/macOS (bash):
+```bash
+cp .env.example .env
 ```
 
 4. Configure your environment variables in `.env`
 
 5. Start the server:
 
+For Windows (PowerShell):
 ```powershell
+# For development (with auto-reload):
+npm run dev
+
+# For production:
+npm start
+```
+
+For Linux/macOS (bash):
+```bash
+# For development (with auto-reload):
+npm run dev
+
+# For production:
 npm start
 ```
 
@@ -95,6 +115,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-Your Name - [@adrienne](https://warpcast.com/adrienne)
+Your Name - [@adrienne](https://farcaster.xyz/adrienne)
 
 Project Link: [https://github.com/atenger/free-compliment-website](https://github.com/atenger/free-compliments-website)
