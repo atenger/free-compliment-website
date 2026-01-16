@@ -31,12 +31,25 @@ const backhandedData = JSON.parse(fs.readFileSync(backhandedFile, 'utf8'));
 // Add express.json() middleware for parsing POST requests
 app.use(express.json());
 
+// Helper function to escape XML special characters
+function escapeXml(unsafe) {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
 // API routes should come before the catch-all
 app.get('/api/og', async (req, res) => {
   try {
     const compliments = complimentsData.compliments;
     const randomIndex = Math.floor(Math.random() * compliments.length);
     const compliment = compliments[randomIndex];
+
+    // Escape the compliment text for XML/SVG
+    const escapedCompliment = escapeXml(compliment);
 
     // Create an SVG with the compliment
     const svg = `
@@ -50,7 +63,7 @@ app.get('/api/og', async (req, res) => {
                     fill="#4eff9f" 
                     text-anchor="middle"
                     dominant-baseline="middle"
-                >${compliment}</text>
+                >${escapedCompliment}</text>
             </svg>
         `;
 
