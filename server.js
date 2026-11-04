@@ -2,6 +2,17 @@ require('dotenv').config();
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+
+// Serverless hosts (e.g. Vercel) have no system fonts, so SVG text rendered by
+// sharp shows up as empty boxes. Point fontconfig at our bundled font instead.
+// This must be set before sharp is loaded.
+const FONT_FILE = path.join(__dirname, 'fonts', 'DejaVuSans.ttf');
+const FONT_CONFIG = path.join(__dirname, 'fonts', 'fonts.conf');
+if (!fs.existsSync(FONT_FILE) || !fs.existsSync(FONT_CONFIG)) {
+  console.warn('Bundled font missing; /api/og text may not render.');
+}
+process.env.FONTCONFIG_FILE = FONT_CONFIG;
+
 const sharp = require('sharp');
 
 const app = express();
@@ -52,16 +63,13 @@ app.get('/api/og', async (req, res) => {
     const escapedCompliment = escapeXml(compliment);
 
     // Create an SVG with the compliment
-    // Using a simple approach that Sharp can render without fontconfig issues
-    // The fontconfig error is usually just a warning and won't break functionality
-    // but we'll use a simpler SVG structure
     const svg = `
             <svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
                 <rect width="1200" height="630" fill="#1a1f3c"/>
                 <text 
                     x="600" 
                     y="315" 
-                    font-family="sans-serif" 
+                    font-family="DejaVu Sans" 
                     font-size="48" 
                     fill="#4eff9f" 
                     text-anchor="middle"
@@ -71,14 +79,7 @@ app.get('/api/og', async (req, res) => {
         `;
 
     // Convert SVG to PNG
-    // Note: Fontconfig warnings in Vercel/serverless are expected and can be ignored.
-    // Sharp will use a fallback font and the image will still generate correctly.
-    const pngBuffer = await sharp(Buffer.from(svg), {
-      // Suppress fontconfig-related warnings in serverless environments
-      limitInputPixels: false,
-    })
-      .toFormat('png')
-      .toBuffer();
+    const pngBuffer = await sharp(Buffer.from(svg)).toFormat('png').toBuffer();
 
     // Send the PNG
     res.setHeader('Content-Type', 'image/png');
@@ -86,8 +87,6 @@ app.get('/api/og', async (req, res) => {
     res.send(pngBuffer);
   } catch (error) {
     console.error('Error generating image:', error);
-    // In case of fontconfig issues, return a simple error image
-    // or you could fall back to a pre-generated image
     res.status(500).send('Error generating image');
   }
 });
